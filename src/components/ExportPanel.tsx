@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { toPng, toSvg } from 'html-to-image';
-import { Download, Image as ImageIcon } from 'lucide-react';
+import { toPng, toSvg, toBlob } from 'html-to-image';
+import { Download, Image as ImageIcon, Copy } from 'lucide-react';
 
 export const ExportPanel: React.FC = () => {
     const [isExporting, setIsExporting] = useState(false);
 
-    const handleExport = async (format: 'png' | 'svg') => {
+    const handleExport = async (format: 'png' | 'svg' | 'clipboard') => {
         const node = document.getElementById('terminal-export-node');
         if (!node) return;
 
         try {
             setIsExporting(true);
+
+            if (format === 'clipboard') {
+                const blob = await toBlob(node, { quality: 1, pixelRatio: 2 });
+                if (blob) {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                }
+                return;
+            }
+
             // Wait for font loading if necessary, but generally ok
             const dataUrl = format === 'png'
                 ? await toPng(node, { quality: 1, pixelRatio: 2 })
@@ -34,21 +45,30 @@ export const ExportPanel: React.FC = () => {
             <p style={{ marginBottom: '16px', opacity: 0.8, fontSize: '0.9rem' }}>
                 Download your stylized terminal as a high-quality image. SVG is recommended for infinite scaling.
             </p>
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
                 <button
                     className="btn-primary"
                     onClick={() => handleExport('svg')}
                     disabled={isExporting}
+                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
                 >
-                    <Download size={18} /> Export SVG
+                    <Download size={16} /> SVG
                 </button>
                 <button
                     className="btn-primary"
                     onClick={() => handleExport('png')}
                     disabled={isExporting}
-                    style={{ background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
+                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
                 >
-                    <ImageIcon size={18} /> Export PNG
+                    <ImageIcon size={16} /> PNG
+                </button>
+                <button
+                    className="btn-primary"
+                    onClick={() => handleExport('clipboard')}
+                    disabled={isExporting}
+                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
+                >
+                    <Copy size={16} /> Copy
                 </button>
             </div>
         </div>
