@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { toPng, toSvg, toBlob } from 'html-to-image';
-import { Download, Image as ImageIcon, Copy } from 'lucide-react';
+import { Download, Image as ImageIcon, Copy, Check } from 'lucide-react';
 
 export const ExportPanel: React.FC = () => {
     const [isExporting, setIsExporting] = useState(false);
+    const [toastMessage, setToastMessage] = useState<{ text: string, type: 'download' | 'copy' } | null>(null);
+
+    const showToast = (text: string, type: 'download' | 'copy') => {
+        setToastMessage({ text, type });
+        setTimeout(() => setToastMessage(null), 3000);
+    };
 
     const handleExport = async (format: 'png' | 'svg' | 'clipboard') => {
         const node = document.getElementById('terminal-export-node');
@@ -18,6 +24,7 @@ export const ExportPanel: React.FC = () => {
                     await navigator.clipboard.write([
                         new ClipboardItem({ 'image/png': blob })
                     ]);
+                    showToast('Image Copied to Clipboad!', 'copy');
                 }
                 return;
             }
@@ -31,6 +38,7 @@ export const ExportPanel: React.FC = () => {
             link.download = `terminal-export.${format}`;
             link.href = dataUrl;
             link.click();
+            showToast('Downloading Image!', 'download');
         } catch (error) {
             console.error('Failed to export image', error);
             alert('Failed to export image. See console for details.');
@@ -47,30 +55,33 @@ export const ExportPanel: React.FC = () => {
             </p>
             <div style={{ display: 'flex', gap: '8px' }}>
                 <button
-                    className="btn-primary"
+                    className="btn-export"
                     onClick={() => handleExport('svg')}
                     disabled={isExporting}
-                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
                 >
                     <Download size={16} /> SVG
                 </button>
                 <button
-                    className="btn-primary"
+                    className="btn-export"
                     onClick={() => handleExport('png')}
                     disabled={isExporting}
-                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
                 >
                     <ImageIcon size={16} /> PNG
                 </button>
                 <button
-                    className="btn-primary"
+                    className="btn-export"
                     onClick={() => handleExport('clipboard')}
                     disabled={isExporting}
-                    style={{ flex: 1, padding: '8px', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', color: 'var(--text-color)' }}
                 >
                     <Copy size={16} /> Copy
                 </button>
             </div>
+            {toastMessage && (
+                <div className="toast-message">
+                    {toastMessage.type === 'copy' ? <Check size={16} /> : <Download size={16} />}
+                    {toastMessage.text}
+                </div>
+            )}
         </div>
     );
 };

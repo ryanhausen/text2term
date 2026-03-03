@@ -84,7 +84,10 @@ body {
 }
 
 /* Typography styles */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -146,9 +149,17 @@ p.subtitle {
   border-radius: 50%;
 }
 
-.mac-close { background-color: #ff5f56; }
-.mac-min { background-color: #ffbd2e; }
-.mac-max { background-color: #27c93f; }
+.mac-close {
+  background-color: #ff5f56;
+}
+
+.mac-min {
+  background-color: #ffbd2e;
+}
+
+.mac-max {
+  background-color: #27c93f;
+}
 
 .terminal-title {
   flex: 1;
@@ -166,7 +177,9 @@ p.subtitle {
 }
 
 /* Forms and Inputs */
-input, textarea, select {
+input,
+textarea,
+select {
   width: 100%;
   padding: 12px 16px;
   background: var(--input-bg);
@@ -177,7 +190,9 @@ input, textarea, select {
   transition: all 0.2s ease;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--accent-color);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
@@ -229,8 +244,15 @@ button {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -296,4 +318,83 @@ button {
 .sidebar-overlay.open {
   opacity: 1;
   visibility: visible;
+}
+
+/* Export Panel Improvements */
+.btn-export {
+  flex: 1;
+  padding: 8px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-export:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+[data-theme="hacker"] .btn-export:hover:not(:disabled) {
+  color: #000;
+}
+
+.btn-export:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toast-message {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: toastFadeInOut 3s ease forwards;
+}
+
+[data-theme="hacker"] .toast-message {
+  color: #000;
+}
+
+@keyframes toastFadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
 }
