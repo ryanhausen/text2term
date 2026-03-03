@@ -4,10 +4,12 @@ import { TerminalPreview } from './components/TerminalPreview';
 import { InputPanel } from './components/InputPanel';
 import { ThemeSelector } from './components/ThemeSelector';
 import { ExportPanel } from './components/ExportPanel';
-import { Terminal } from 'lucide-react';
+import { Terminal, Menu } from 'lucide-react';
+import { Sidebar } from './components/Sidebar';
 
 function App() {
   const [theme, setTheme] = useState<ThemeName>('dark');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: crypto.randomUUID(),
@@ -48,6 +50,28 @@ function App() {
 
   return (
     <div style={{ padding: '32px', maxWidth: '1400px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+
+      {/* Settings Toggle Button */}
+      <div style={{ position: 'fixed', top: '32px', left: '32px', zIndex: 10 }}>
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="btn-icon glass-panel"
+          style={{ width: '48px', height: '48px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+          aria-label="Open Settings"
+        >
+          <Menu size={24} />
+        </button>
+      </div>
+
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}>
+        <ThemeSelector
+          currentTheme={theme}
+          onThemeChange={setTheme}
+        />
+        <div style={{ height: '24px' }} /> {/* Spacing */}
+        <ExportPanel />
+      </Sidebar>
+
       <header className="animate-fade-in" style={{ textAlign: 'center', marginBottom: '16px' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'var(--panel-bg)', padding: '16px', borderRadius: '50%', marginBottom: '16px', border: '1px solid var(--border-color)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
           <Terminal size={48} color="var(--accent-color)" />
@@ -64,11 +88,6 @@ function App() {
             onUpdateLine={handleUpdateLine}
             onRemoveLine={handleRemoveLine}
           />
-          <ThemeSelector
-            currentTheme={theme}
-            onThemeChange={setTheme}
-          />
-          <ExportPanel />
         </div>
 
         <div style={{ position: 'sticky', top: '32px' }} className="animate-fade-in">
