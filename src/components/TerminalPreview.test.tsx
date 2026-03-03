@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { TerminalPreview } from './TerminalPreview';
-import { TerminalLine } from '../types';
+import type { TerminalLine } from '../types';
 
 describe('TerminalPreview Component', () => {
     it('renders command lines with PS1 correctly', () => {

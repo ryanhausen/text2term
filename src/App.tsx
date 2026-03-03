@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { TerminalLine, ThemeName } from './types';
 import { TerminalPreview } from './components/TerminalPreview';
 import { InputPanel } from './components/InputPanel';
@@ -63,7 +63,6 @@ function App() {
             onAddLine={handleAddLine}
             onUpdateLine={handleUpdateLine}
             onRemoveLine={handleRemoveLine}
-            theme={theme}
           />
           <ThemeSelector
             currentTheme={theme}

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TerminalLine, ThemeName } from '../types';
+import type { TerminalLine } from '../types';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface InputPanelProps {
@@ -7,15 +7,13 @@ interface InputPanelProps {
     onAddLine: (type: 'command' | 'output') => void;
     onUpdateLine: (id: string, updates: Partial<TerminalLine>) => void;
     onRemoveLine: (id: string) => void;
-    theme: ThemeName;
 }
 
 export const InputPanel: React.FC<InputPanelProps> = ({
     lines,
     onAddLine,
     onUpdateLine,
-    onRemoveLine,
-    theme
+    onRemoveLine
 }) => {
     return (
         <div className="glass-panel animate-fade-in" style={{ padding: '24px' }}>
