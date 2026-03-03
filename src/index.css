@@ -125,7 +125,7 @@ p.subtitle {
 .terminal-window {
   background: var(--term-bg);
   border: 1px solid var(--term-border);
-  border-radius: 12px;
+  border-radius: calc(12px * var(--container-scale, 1));
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
@@ -133,7 +133,7 @@ p.subtitle {
 .terminal-header {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: calc(12px * var(--container-scale, 1)) calc(16px * var(--container-scale, 1));
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid var(--term-border);
 }
@@ -144,8 +144,8 @@ p.subtitle {
 }
 
 .mac-btn {
-  width: 12px;
-  height: 12px;
+  width: calc(12px * var(--container-scale, 1));
+  height: calc(12px * var(--container-scale, 1));
   border-radius: 50%;
 }
 
@@ -164,15 +164,15 @@ p.subtitle {
 .terminal-title {
   flex: 1;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: calc(0.85rem * var(--container-scale, 1));
   color: var(--term-text);
   opacity: 0.6;
 }
 
 .terminal-body {
-  padding: 24px;
+  padding: calc(24px * var(--container-scale, 1));
   color: var(--term-text);
-  font-size: 1.1rem;
+  font-size: calc(1.1rem * var(--text-scale, 1));
   line-height: 1.6;
 }
 

@@ -3,11 +3,20 @@ import type { TerminalLine } from '../types';
 
 interface TerminalPreviewProps {
     lines: TerminalLine[];
+    containerScale: number;
+    textScale: number;
 }
 
-export const TerminalPreview: React.FC<TerminalPreviewProps> = ({ lines }) => {
+export const TerminalPreview: React.FC<TerminalPreviewProps> = ({ lines, containerScale, textScale }) => {
     return (
-        <div className="terminal-window" id="terminal-export-node">
+        <div
+            className="terminal-window"
+            id="terminal-export-node"
+            style={{
+                '--container-scale': containerScale,
+                '--text-scale': textScale
+            } as React.CSSProperties}
+        >
             <div className="terminal-header">
                 <div className="mac-buttons">
                     <div className="mac-btn mac-close"></div>

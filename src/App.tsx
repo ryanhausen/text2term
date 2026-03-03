@@ -4,12 +4,15 @@ import { TerminalPreview } from './components/TerminalPreview';
 import { InputPanel } from './components/InputPanel';
 import { ThemeSelector } from './components/ThemeSelector';
 import { ExportPanel } from './components/ExportPanel';
+import { ScaleSelector } from './components/ScaleSelector';
 import { Terminal, Menu } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 
 function App() {
   const [theme, setTheme] = useState<ThemeName>('dark');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [containerScale, setContainerScale] = useState<number>(1);
+  const [textScale, setTextScale] = useState<number>(1);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: crypto.randomUUID(),
@@ -69,6 +72,13 @@ function App() {
           onThemeChange={setTheme}
         />
         <div style={{ height: '24px' }} /> {/* Spacing */}
+        <ScaleSelector
+          containerScale={containerScale}
+          textScale={textScale}
+          onContainerScaleChange={setContainerScale}
+          onTextScaleChange={setTextScale}
+        />
+        <div style={{ height: '24px' }} /> {/* Spacing */}
         <ExportPanel />
       </Sidebar>
 
@@ -92,8 +102,8 @@ function App() {
 
         <div style={{ position: 'sticky', top: '32px' }} className="animate-fade-in">
           <div className="glass-panel" style={{ padding: '32px', display: 'flex', justifyContent: 'center', background: 'var(--panel-bg)' }}>
-            <div style={{ width: '100%', maxWidth: '800px' }}>
-              <TerminalPreview lines={lines} />
+            <div style={{ width: '100%', maxWidth: `calc(800px * ${containerScale})` }}>
+              <TerminalPreview lines={lines} containerScale={containerScale} textScale={textScale} />
             </div>
           </div>
         </div>
