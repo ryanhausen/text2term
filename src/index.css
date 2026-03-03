@@ -1,0 +1,238 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Default Dark Theme */
+  --bg-color: #0f1115;
+  --text-color: #e2e8f0;
+  --panel-bg: rgba(20, 24, 32, 0.7);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --term-bg: #000000;
+  --term-text: #f8f8f2;
+  --term-border: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(0, 0, 0, 0.3);
+  --input-border: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --panel-bg: rgba(255, 255, 255, 0.8);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+  --term-bg: #ffffff;
+  --term-text: #1e293b;
+  --term-border: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="solaris"] {
+  --bg-color: #fdf6e3;
+  --text-color: #657b83;
+  --panel-bg: rgba(238, 232, 213, 0.85);
+  --border-color: rgba(147, 161, 161, 0.3);
+  --accent-color: #268bd2;
+  --accent-hover: #2aa198;
+  --term-bg: #002b36;
+  --term-text: #839496;
+  --term-border: rgba(7, 54, 66, 0.6);
+  --glass-border: rgba(0, 43, 54, 0.1);
+  --input-bg: rgba(253, 246, 227, 0.9);
+  --input-border: rgba(147, 161, 161, 0.5);
+}
+
+[data-theme="hacker"] {
+  --bg-color: #050505;
+  --text-color: #00ff00;
+  --panel-bg: rgba(0, 20, 0, 0.8);
+  --border-color: #00ff00;
+  --accent-color: #00ff00;
+  --accent-hover: #00cc00;
+  --term-bg: #000000;
+  --term-text: #00ff00;
+  --term-border: #00ff00;
+  --glass-border: rgba(0, 255, 0, 0.2);
+  --input-bg: rgba(0, 20, 0, 0.8);
+  --input-border: #00ff00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Typography styles */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(to right, var(--accent-color), #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+p.subtitle {
+  color: var(--text-color);
+  opacity: 0.8;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Terminal specific styles */
+.terminal-font {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+}
+
+.terminal-window {
+  background: var(--term-bg);
+  border: 1px solid var(--term-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--term-border);
+}
+
+.mac-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.mac-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.mac-close { background-color: #ff5f56; }
+.mac-min { background-color: #ffbd2e; }
+.mac-max { background-color: #27c93f; }
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--term-text);
+  opacity: 0.6;
+}
+
+.terminal-body {
+  padding: 24px;
+  color: var(--term-text);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Forms and Inputs */
+input, textarea, select {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-color);
+  border-radius: 8px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--accent-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+[data-theme="hacker"] .btn-primary {
+  color: #000;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
