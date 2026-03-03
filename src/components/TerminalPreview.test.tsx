@@ -7,7 +7,7 @@ describe('TerminalPreview Component', () => {
         const lines: TerminalLine[] = [
             { id: '1', type: 'command', ps1: 'root@server:~#', text: 'ls -la' }
         ];
-        render(<TerminalPreview lines={lines} />);
+        render(<TerminalPreview lines={lines} containerScale={1} textScale={1} />);
 
         expect(screen.getAllByText('root@server:~#').length).toBeGreaterThan(0);
         expect(screen.getByText('ls -la')).toBeInTheDocument();
@@ -17,7 +17,7 @@ describe('TerminalPreview Component', () => {
         const lines: TerminalLine[] = [
             { id: '2', type: 'output', ps1: '', text: 'total 42' }
         ];
-        render(<TerminalPreview lines={lines} />);
+        render(<TerminalPreview lines={lines} containerScale={1} textScale={1} />);
 
         expect(screen.getByText('total 42')).toBeInTheDocument();
         // make sure root@server doesn't exist
@@ -25,7 +25,7 @@ describe('TerminalPreview Component', () => {
     });
 
     it('renders the mac style window buttons', () => {
-        render(<TerminalPreview lines={[]} />);
+        render(<TerminalPreview lines={[]} containerScale={1} textScale={1} />);
 
         const closeBtn = document.querySelector('.mac-close');
         expect(closeBtn).toBeInTheDocument();
