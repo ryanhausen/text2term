@@ -209,6 +209,7 @@ button {
   border: none;
   background: transparent;
   font-family: inherit;
+  color: inherit;
 }
 
 .btn-primary {
