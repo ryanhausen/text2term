@@ -90,22 +90,20 @@ function App() {
         <p className="subtitle">Create beautiful, high-resolution terminal mockups for your presentations or readmes.</p>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '32px', alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', alignItems: 'center' }}>
+        <div style={{ position: 'sticky', top: '32px', zIndex: 5, width: '100%', display: 'flex', justifyContent: 'center' }} className="animate-fade-in">
+          <div className="glass-panel" style={{ padding: '32px', background: 'var(--panel-bg)', width: '100%', maxWidth: `calc(800px * ${containerScale})`, transition: 'max-width 0.2s ease-out' }}>
+            <TerminalPreview lines={lines} containerScale={containerScale} textScale={textScale} />
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '800px' }}>
           <InputPanel
             lines={lines}
             onAddLine={handleAddLine}
             onUpdateLine={handleUpdateLine}
             onRemoveLine={handleRemoveLine}
           />
-        </div>
-
-        <div style={{ position: 'sticky', top: '32px' }} className="animate-fade-in">
-          <div className="glass-panel" style={{ padding: '32px', display: 'flex', justifyContent: 'center', background: 'var(--panel-bg)' }}>
-            <div style={{ width: '100%', maxWidth: `calc(800px * ${containerScale})` }}>
-              <TerminalPreview lines={lines} containerScale={containerScale} textScale={textScale} />
-            </div>
-          </div>
         </div>
       </div>
     </div>
