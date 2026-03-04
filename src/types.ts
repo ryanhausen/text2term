@@ -7,4 +7,19 @@ export interface TerminalLine {
     text: string; // The typed command or output
 }
 
-export type ThemeName = 'dark' | 'light' | 'solaris' | 'hacker';
+export type ThemeName = 'dark' | 'light' | 'solaris' | 'hacker' | 'powershell' | 'custom';
+
+export interface ThemeColors {
+    bgColor: string;
+    textColor: string;
+    panelBg: string;
+    borderColor: string;
+    accentColor: string;
+    accentHover: string;
+    termBg: string;
+    termText: string;
+    termBorder: string;
+    glassBorder: string;
+    inputBg: string;
+    inputBorder: string;
+}

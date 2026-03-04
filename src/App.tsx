@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { TerminalLine, ThemeName } from './types';
+import type { TerminalLine, ThemeName, ThemeColors } from './types';
 import { TerminalPreview } from './components/TerminalPreview';
 import { InputPanel } from './components/InputPanel';
 import { ThemeSelector } from './components/ThemeSelector';
@@ -10,6 +10,20 @@ import { Sidebar } from './components/Sidebar';
 
 function App() {
   const [theme, setTheme] = useState<ThemeName>('dark');
+  const [customColors, setCustomColors] = useState<ThemeColors>({
+    bgColor: '#1a1a2e',
+    textColor: '#ffffff',
+    panelBg: 'rgba(26, 26, 46, 0.8)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    accentColor: '#e94560',
+    accentHover: '#ff4c68',
+    termBg: '#16213e',
+    termText: '#f8f8f2',
+    termBorder: 'rgba(255, 255, 255, 0.1)',
+    glassBorder: 'rgba(255, 255, 255, 0.1)',
+    inputBg: 'rgba(26, 26, 46, 0.6)',
+    inputBorder: 'rgba(255, 255, 255, 0.3)',
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [containerScale, setContainerScale] = useState<number>(1);
   const [textScale, setTextScale] = useState<number>(1);
@@ -30,7 +44,32 @@ function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+
+    const cssVarMap: Record<keyof ThemeColors, string> = {
+      bgColor: '--bg-color',
+      textColor: '--text-color',
+      panelBg: '--panel-bg',
+      borderColor: '--border-color',
+      accentColor: '--accent-color',
+      accentHover: '--accent-hover',
+      termBg: '--term-bg',
+      termText: '--term-text',
+      termBorder: '--term-border',
+      glassBorder: '--glass-border',
+      inputBg: '--input-bg',
+      inputBorder: '--input-border',
+    };
+
+    if (theme === 'custom') {
+      Object.entries(customColors).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(cssVarMap[key as keyof ThemeColors], value);
+      });
+    } else {
+      Object.values(cssVarMap).forEach((cssVar) => {
+        document.documentElement.style.removeProperty(cssVar);
+      });
+    }
+  }, [theme, customColors]);
 
   const handleAddLine = (type: 'command' | 'output') => {
     setLines([...lines, {
@@ -70,6 +109,8 @@ function App() {
         <ThemeSelector
           currentTheme={theme}
           onThemeChange={setTheme}
+          customColors={customColors}
+          onCustomColorsChange={setCustomColors}
         />
         <div style={{ height: '24px' }} /> {/* Spacing */}
         <ScaleSelector
