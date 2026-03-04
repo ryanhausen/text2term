@@ -91,7 +91,7 @@ function App() {
       </header>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', alignItems: 'center' }}>
-        <div style={{ position: 'sticky', top: '32px', zIndex: 5, width: '100%', display: 'flex', justifyContent: 'center' }} className="animate-fade-in">
+        <div style={{ position: 'sticky', top: '32px', zIndex: isSidebarOpen ? 100 : 5, transition: `z-index 0s ${isSidebarOpen ? '0s' : '0.3s'}`, width: '100%', display: 'flex', justifyContent: 'center' }} className="animate-fade-in">
           <div className="glass-panel" style={{ padding: '32px', background: 'var(--panel-bg)', width: '100%', maxWidth: `calc(800px * ${containerScale})`, transition: 'max-width 0.2s ease-out' }}>
             <TerminalPreview lines={lines} containerScale={containerScale} textScale={textScale} />
           </div>
