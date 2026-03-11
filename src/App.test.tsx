@@ -19,6 +19,22 @@ describe('App Component', () => {
         expect(lines.length).toBe(3);
     });
 
+    it('inherits PS1 from the last command when adding a new one', () => {
+        render(<App />);
+
+        // Get the first command line and change its PS1
+        const ps1Input = screen.getByDisplayValue('user@host:~$');
+        fireEvent.change(ps1Input, { target: { value: 'custom@ps1:$' } });
+
+        // Add a new command
+        const addCommandBtn = screen.getByText(/Add Command/i);
+        fireEvent.click(addCommandBtn);
+
+        // Verify there are two command lines with 'custom@ps1:$'
+        const ps1Inputs = screen.getAllByDisplayValue('custom@ps1:$');
+        expect(ps1Inputs.length).toBe(2);
+    });
+
     it('allows removing a line', () => {
         render(<App />);
         // Initial state has 2 lines. Let's find the first trash button and click it

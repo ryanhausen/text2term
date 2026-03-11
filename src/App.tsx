@@ -72,10 +72,13 @@ function App() {
   }, [theme, customColors]);
 
   const handleAddLine = (type: 'command' | 'output') => {
+    const lastCommand = [...lines].reverse().find(l => l.type === 'command');
+    const defaultPs1 = lastCommand ? lastCommand.ps1 : 'user@host:~$';
+
     setLines([...lines, {
       id: crypto.randomUUID(),
       type,
-      ps1: type === 'command' ? 'user@host:~$' : '',
+      ps1: type === 'command' ? defaultPs1 : '',
       text: ''
     }]);
   };
