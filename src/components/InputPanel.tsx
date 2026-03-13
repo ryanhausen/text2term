@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { TerminalLine } from '../types';
 import { Plus, Trash2 } from 'lucide-react';
 
@@ -9,12 +9,21 @@ interface InputPanelProps {
     onRemoveLine: (id: string) => void;
 }
 
+const autoResize = (el: HTMLTextAreaElement) => {
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+};
+
 export const InputPanel: React.FC<InputPanelProps> = ({
     lines,
     onAddLine,
     onUpdateLine,
     onRemoveLine
 }) => {
+    const commandTextareaRef = useCallback((el: HTMLTextAreaElement | null) => {
+        if (el) autoResize(el);
+    }, []);
+
     return (
         <div className="glass-panel animate-fade-in" style={{ padding: '24px' }}>
             <h2 style={{ marginBottom: '16px', fontSize: '1.25rem' }}>Terminal Inputs</h2>
@@ -65,13 +74,27 @@ export const InputPanel: React.FC<InputPanelProps> = ({
                             )}
                         </div>
 
-                        <textarea
-                            placeholder={line.type === 'command' ? "Enter command here..." : "Enter command output here..."}
-                            value={line.text}
-                            onChange={(e) => onUpdateLine(line.id, { text: e.target.value })}
-                            rows={line.type === 'output' ? 3 : 1}
-                            style={{ resize: 'vertical' }}
-                        />
+                        {line.type === 'command' ? (
+                            <textarea
+                                placeholder="Enter command here... (use Shift+Enter or paste newlines for multi-line)"
+                                value={line.text}
+                                onChange={(e) => {
+                                    onUpdateLine(line.id, { text: e.target.value });
+                                    autoResize(e.target);
+                                }}
+                                ref={commandTextareaRef}
+                                rows={1}
+                                style={{ resize: 'none', overflow: 'hidden', minHeight: '36px' }}
+                            />
+                        ) : (
+                            <textarea
+                                placeholder="Enter command output here..."
+                                value={line.text}
+                                onChange={(e) => onUpdateLine(line.id, { text: e.target.value })}
+                                rows={3}
+                                style={{ resize: 'vertical' }}
+                            />
+                        )}
                     </div>
                 ))}
             </div>

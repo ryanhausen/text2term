@@ -29,18 +29,30 @@ export const TerminalPreview: React.FC<TerminalPreviewProps> = ({ lines, contain
                 {lines.map((line) => (
                     <div key={line.id} style={{ marginBottom: '8px' }}>
                         {line.type === 'command' ? (
-                            <div style={{ display: 'flex', gap: '8px', wordBreak: 'break-all' }}>
-                                {line.ps1 && (
-                                    <span style={{
-                                        color: 'var(--accent-color)',
-                                        fontWeight: 'bold',
-                                        whiteSpace: 'pre'
-                                    }}>
-                                        {line.ps1}
-                                    </span>
-                                )}
-                                <span>{line.text}</span>
-                            </div>
+                            line.text.split('\n').map((textLine, lineIdx) => (
+                                <div key={lineIdx} style={{ display: 'flex', gap: '8px', wordBreak: 'break-all' }}>
+                                    {lineIdx === 0 ? (
+                                        line.ps1 && (
+                                            <span style={{
+                                                color: 'var(--accent-color)',
+                                                fontWeight: 'bold',
+                                                whiteSpace: 'pre'
+                                            }}>
+                                                {line.ps1}
+                                            </span>
+                                        )
+                                    ) : (
+                                        <span style={{
+                                            color: 'var(--accent-color)',
+                                            fontWeight: 'bold',
+                                            whiteSpace: 'pre'
+                                        }}>
+                                            {'>'}
+                                        </span>
+                                    )}
+                                    <span>{textLine}</span>
+                                </div>
+                            ))
                         ) : (
                             <div style={{ opacity: 0.9, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
                                 {line.text}
